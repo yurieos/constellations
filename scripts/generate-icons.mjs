@@ -32,22 +32,26 @@ async function generateIcons() {
 
   const svgBuffer = Buffer.from(svgIcon);
 
+  // Use high density to rasterize SVG at sufficient resolution before resizing
+  // The SVG has a 32x32 viewBox, so we need high density to get crisp output
+  const density = 300;
+
   // Generate apple-touch-icon (180x180)
-  await sharp(svgBuffer)
+  await sharp(svgBuffer, { density })
     .resize(180, 180)
     .png()
     .toFile(join(publicDir, 'apple-touch-icon.png'));
   console.log('✓ Generated apple-touch-icon.png (180x180)');
 
   // Generate icon-192.png for PWA
-  await sharp(svgBuffer)
+  await sharp(svgBuffer, { density })
     .resize(192, 192)
     .png()
     .toFile(join(publicDir, 'icon-192.png'));
   console.log('✓ Generated icon-192.png (192x192)');
 
   // Generate icon-512.png for PWA
-  await sharp(svgBuffer)
+  await sharp(svgBuffer, { density })
     .resize(512, 512)
     .png()
     .toFile(join(publicDir, 'icon-512.png'));
@@ -56,14 +60,14 @@ async function generateIcons() {
   // Generate favicon.ico (multiple sizes in ICO format)
   // Sharp doesn't support ICO directly, so we'll create a 32x32 PNG
   // Next.js can use favicon.ico from public/ or app/icon.svg automatically
-  await sharp(svgBuffer)
+  await sharp(svgBuffer, { density })
     .resize(32, 32)
     .png()
     .toFile(join(publicDir, 'favicon-32.png'));
   console.log('✓ Generated favicon-32.png (32x32)');
 
   // Generate 16x16 favicon variant
-  await sharp(svgBuffer)
+  await sharp(svgBuffer, { density })
     .resize(16, 16)
     .png()
     .toFile(join(publicDir, 'favicon-16.png'));
