@@ -3,13 +3,7 @@ import path from "path"
 import matter from "gray-matter"
 import { Header } from "@/components/header"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-
-type Post = {
-  slug: string
-  title: string
-  date: string
-  excerpt: string
-}
+import type { Post, PostFrontmatter } from "@/types/blog"
 
 function getPosts(): Post[] {
   const contentDir = path.join(process.cwd(), "content")
@@ -21,12 +15,13 @@ function getPosts(): Post[] {
       const filePath = path.join(contentDir, file)
       const fileContent = fs.readFileSync(filePath, "utf-8")
       const { data } = matter(fileContent)
+      const frontmatter = data as PostFrontmatter
 
       return {
         slug: file.replace(".md", ""),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt,
+        title: frontmatter.title,
+        date: frontmatter.date,
+        excerpt: frontmatter.excerpt,
       }
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
