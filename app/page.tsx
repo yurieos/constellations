@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import { Header } from "@/components/header"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { PostList } from "@/components/post-list"
 import type { Post, PostFrontmatter } from "@/types/blog"
 
 function getPosts(): Post[] {
@@ -22,36 +22,26 @@ function getPosts(): Post[] {
         title: frontmatter.title,
         date: frontmatter.date,
         excerpt: frontmatter.excerpt,
+        tags: frontmatter.tags ?? [],
       }
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
+function getAllTags(posts: Post[]): string[] {
+  const tags = new Set<string>()
+  posts.forEach((post) => post.tags.forEach((tag) => tags.add(tag)))
+  return Array.from(tags).sort()
+}
+
 export default function Page() {
   const posts = getPosts()
+  const allTags = getAllTags(posts)
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8">
+    <main className="mx-auto max-w-2xl px-6 pt-8 pb-16">
       <Header />
-      <section className="mt-8 space-y-6">
-        {posts.map((post) => (
-          <Card key={post.slug}>
-            <CardHeader>
-              <CardDescription>
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </CardDescription>
-              <CardTitle className="text-lg">{post.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{post.excerpt}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </section>
+      <PostList posts={posts} allTags={allTags} />
     </main>
   )
 }

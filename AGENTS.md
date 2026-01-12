@@ -27,17 +27,16 @@ constellations/
 ├── app/
 │   ├── page.tsx          # Main blog page (SERVER COMPONENT)
 │   ├── layout.tsx        # Root layout with ThemeProvider
-│   └── globals.css       # Tailwind v4 + CSS variables
+│   ├── globals.css       # Tailwind v4 + CSS variables
+│   └── icon.svg          # Favicon
 ├── components/
 │   ├── ui/               # Shadcn UI components (DO NOT EDIT MANUALLY)
-│   ├── header.tsx        # Site header
+│   ├── header.tsx        # Site header with logo
+│   ├── post-list.tsx     # Post list with tag filtering (CLIENT)
 │   ├── theme-provider.tsx
-│   └── theme-toggle.tsx  # ONLY client component
+│   └── theme-toggle.tsx  # Theme toggle (CLIENT)
 ├── content/              # Markdown blog posts
 │   └── *.md
-├── docs/                 # AI context documentation
-│   ├── shadcn-llms.txt   # Shadcn component reference
-│   └── patterns.md       # Project patterns
 ├── lib/
 │   └── utils.ts          # cn() utility for classnames
 └── types/
@@ -81,7 +80,7 @@ npx shadcn@latest add <component-name>
 
 DO NOT manually edit files in `components/ui/`. Re-run the CLI to update.
 
-Installed components: alert-dialog, badge, button, card, combobox, dropdown-menu, field, input, input-group, label, select, separator, textarea
+Installed components: button
 
 ## Adding Blog Posts
 
@@ -105,7 +104,6 @@ Posts auto-sort by date (newest first).
 |---------|---------|
 | `gray-matter` | Parse markdown frontmatter |
 | `next-themes` | Dark/light mode |
-| `@hugeicons/react` | Icon library |
 | `class-variance-authority` | Component variants |
 | `tailwind-merge` | Merge Tailwind classes |
 
@@ -132,7 +130,4 @@ Posts auto-sort by date (newest first).
 
 ## Additional Context
 
-- Shadcn component docs: `docs/shadcn-llms.txt`
-- Project patterns: `docs/patterns.md`
-- Codex Cloud setup: `docs/codex-cloud-setup.md`
 - Types: `types/blog.ts`

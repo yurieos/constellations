@@ -5,6 +5,7 @@ A minimal one-page blog built with Next.js 16 and Shadcn UI.
 ## Getting Started
 
 ```bash
+npm install
 npm run dev
 ```
 
@@ -19,6 +20,7 @@ Create a new `.md` file in the `content/` folder:
 title: "Your Post Title"
 date: "2026-01-12"
 excerpt: "A brief description of your post"
+tags: ["History", "Science"]
 ---
 
 Your content here...
@@ -26,12 +28,20 @@ Your content here...
 
 Posts are automatically sorted by date (newest first).
 
+### Available Tags
+
+- Ancient World
+- History
+- Science
+- Tech
+
 ## Features
 
 - Markdown-based posts with frontmatter
+- Tag filtering
 - Dark/light mode toggle
-- Server-side rendering (zero client JS for content)
-- Shadcn UI components
+- Server-side rendering
+- Responsive design
 
 ## Tech Stack
 
