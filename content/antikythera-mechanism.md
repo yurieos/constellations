@@ -2,7 +2,7 @@
 title: "The Antikythera Mechanism"
 date: "2026-01-09"
 excerpt: "Discovered in a Roman shipwreck in 1901, this ancient Greek device reveals a level of technological sophistication we never imagined possible 2,000 years ago. The mechanism could predict astronomical positions, eclipses, and even Olympic Games timing. Its intricate system of gears wouldn't be matched for over a millennium, challenging everything we thought we knew about ancient technology."
-tags: ["Ancient World", "Science", "Tech"]
+tags: ["Science", "Tech"]
 ---
 
 In 1901, divers exploring a Roman shipwreck near the Greek island of Antikythera recovered a corroded bronze lump. It would take another century to understand what they had found: the world's first known analog computer.

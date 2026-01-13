@@ -2,7 +2,7 @@
 title: "The Socratic Method"
 date: "2026-01-07"
 excerpt: "Why asking questions matters more than having answers. Socrates wrote nothing, yet his method of inquiry remains the foundation of Western education and critical thinking. By asking probing questions rather than lecturing, he helped others discover truth through their own reasoning. This ancient technique still powers law schools, therapy, and scientific peer review today."
-tags: ["Ancient World", "History"]
+tags: ["History"]
 ---
 
 Socrates wrote nothing. Yet his method of inquiry—asking probing questions rather than lecturing—remains the foundation of Western education and critical thinking.

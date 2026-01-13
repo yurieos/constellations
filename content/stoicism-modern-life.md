@@ -2,7 +2,7 @@
 title: "Stoicism in Modern Life"
 date: "2026-01-10"
 excerpt: "Ancient philosophy meets contemporary challenges. Two thousand years ago, Roman emperors and enslaved people alike found wisdom in Stoicism. Today, Silicon Valley executives and professional athletes turn to the same texts for guidance. The core insight—that we control our responses, not external events—offers a powerful framework for modern anxiety."
-tags: ["History", "Ancient World"]
+tags: ["History"]
 ---
 
 Two thousand years ago, Roman emperors and enslaved people alike found wisdom in Stoicism. Today, Silicon Valley executives and professional athletes turn to the same ancient texts.

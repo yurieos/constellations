@@ -2,7 +2,7 @@
 title: "The Library of Alexandria"
 date: "2026-01-11"
 excerpt: "The ancient world's greatest repository of knowledge shaped scholarship for centuries. Founded in Alexandria, Egypt under Ptolemy I, it aimed to collect every book ever written. Scholars like Euclid and Eratosthenes worked within its walls, making discoveries that still echo today. What lessons can we learn from its rise and gradual decline?"
-tags: ["Ancient World", "History", "Science"]
+tags: ["History", "Science"]
 ---
 
 The Library of Alexandria was the most famous library of the ancient world. Founded in the 3rd century BCE under Ptolemy I, it aimed to collect all the world's knowledge.

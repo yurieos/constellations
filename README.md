@@ -30,7 +30,6 @@ Posts are automatically sorted by date (newest first).
 
 ### Available Tags
 
-- Ancient World
 - History
 - Science
 - Tech
