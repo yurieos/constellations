@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 import { PostList } from "@/components/post-list"
 import type { Post, PostFrontmatter } from "@/types/blog"
 
@@ -39,9 +40,10 @@ export default function Page() {
   const allTags = getAllTags(posts)
 
   return (
-    <main className="mx-auto max-w-2xl px-6 pt-8 pb-16">
+    <main className="mx-auto max-w-4xl px-6 pt-8 pb-16">
       <Header />
       <PostList posts={posts} allTags={allTags} />
+      <Footer />
     </main>
   )
 }

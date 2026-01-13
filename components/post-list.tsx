@@ -3,11 +3,16 @@
 import { useState } from "react"
 import type { Post } from "@/types/blog"
 import { cn } from "@/lib/utils"
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 
 type PostListProps = {
   posts: Post[]
   allTags: string[]
 }
+
+const Skeleton = () => (
+  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-muted to-muted/50" />
+)
 
 export function PostList({ posts, allTags }: PostListProps) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
@@ -16,19 +21,27 @@ export function PostList({ posts, allTags }: PostListProps) {
     ? posts.filter((post) => post.tags.includes(selectedTag))
     : posts
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
+
   return (
     <>
       {/* Tag Filter */}
       <nav className="pt-8" aria-label="Filter by category">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="inline-flex flex-wrap items-center gap-1 p-1 rounded-full border border-border/20 bg-secondary/30 backdrop-blur-sm">
           <button
             onClick={() => setSelectedTag(null)}
             className={cn(
-              "cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               selectedTag === null
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground"
+                ? "bg-foreground text-background shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
             )}
           >
             All
@@ -40,11 +53,11 @@ export function PostList({ posts, allTags }: PostListProps) {
                 setSelectedTag(selectedTag === tag ? null : tag)
               }
               className={cn(
-                "cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                 selectedTag === tag
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
               )}
             >
               {tag}
@@ -53,32 +66,31 @@ export function PostList({ posts, allTags }: PostListProps) {
         </div>
       </nav>
 
-      {/* Posts List */}
+      {/* Posts */}
       <section className="mt-10">
         {filteredPosts.length === 0 ? (
-          <p className="py-16 text-center text-muted-foreground">
-            No posts found.
-          </p>
-        ) : (
-          <div className="space-y-8">
-            {filteredPosts.map((post) => (
-              <article key={post.slug} className="group">
-                <time className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </time>
-                <h2 className="mt-2 text-lg font-semibold text-foreground">
-                  {post.title}
-                </h2>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground/90">
-                  {post.excerpt}
-                </p>
-              </article>
-            ))}
+          <div className="py-16 text-center">
+            <p className="text-muted-foreground">No posts found.</p>
           </div>
+        ) : (
+          <BentoGrid className="max-w-4xl mx-auto">
+            {filteredPosts.map((post, i) => (
+              <BentoGridItem
+                key={post.slug}
+                title={post.title}
+                description={
+                  <>
+                    <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">
+                      {formatDate(post.date)}
+                    </p>
+                    <p className="mt-2 leading-relaxed">{post.excerpt}</p>
+                  </>
+                }
+                header={<Skeleton />}
+                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+              />
+            ))}
+          </BentoGrid>
         )}
       </section>
     </>

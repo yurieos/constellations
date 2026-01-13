@@ -1,14 +1,26 @@
-import { ThemeToggle } from "@/components/theme-toggle"
+"use client"
 
-export function Header() {
+import { useEffect } from "react"
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    console.error(error)
+  }, [error])
+
   return (
-    <header className="flex items-center justify-between pb-8 border-b border-border/10">
-      <div className="flex items-center gap-3">
+    <main className="mx-auto max-w-4xl px-6 pt-8 pb-16">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 32 32"
           fill="none"
-          className="size-8"
+          className="size-16 mb-6 text-muted-foreground/40"
           aria-hidden="true"
         >
           <path
@@ -28,11 +40,19 @@ export function Header() {
           <circle cx="24" cy="20" r="1" fill="currentColor" opacity="0.6" />
           <circle cx="4" cy="18" r="1" fill="currentColor" opacity="0.6" />
         </svg>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Constellations
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
+          Something went wrong
         </h1>
+        <p className="text-muted-foreground mb-6">
+          An unexpected error occurred. Please try again.
+        </p>
+        <button
+          onClick={() => reset()}
+          className="cursor-pointer rounded-full px-6 py-2 text-sm font-medium bg-foreground text-background hover:bg-foreground/90 transition-colors"
+        >
+          Try again
+        </button>
       </div>
-      <ThemeToggle />
-    </header>
+    </main>
   )
 }

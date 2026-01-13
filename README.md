@@ -32,7 +32,7 @@ Posts are automatically sorted by date (newest first).
 
 - History
 - Science
-- Tech
+- Technology
 
 ## Features
 
