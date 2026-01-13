@@ -5,6 +5,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Constellations",
   description: "A minimal blog built with Next.js",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Constellations",
+  },
 };
 
 export default function RootLayout({
