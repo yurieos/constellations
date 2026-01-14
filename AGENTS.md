@@ -25,22 +25,42 @@ npm run build        # Must complete successfully
 ```
 constellations/
 ├── app/
-│   ├── page.tsx          # Main blog page (SERVER COMPONENT)
-│   ├── layout.tsx        # Root layout with ThemeProvider
-│   ├── globals.css       # Tailwind v4 + CSS variables
-│   └── icon.svg          # Favicon
+│   ├── page.tsx              # Main blog page (SERVER COMPONENT)
+│   ├── layout.tsx            # Root layout with ThemeProvider
+│   ├── globals.css           # Tailwind v4 + CSS variables
+│   ├── error.tsx             # Error page (CLIENT)
+│   ├── not-found.tsx         # 404 page
+│   ├── manifest.ts           # PWA manifest
+│   ├── robots.ts             # Robots.txt generator
+│   ├── sitemap.ts            # Sitemap generator
+│   ├── icon.svg              # Favicon
+│   └── apple-icon.png        # Apple touch icon
 ├── components/
-│   ├── ui/               # Shadcn UI components (DO NOT EDIT MANUALLY)
-│   ├── header.tsx        # Site header with logo
-│   ├── post-list.tsx     # Post list with tag filtering (CLIENT)
-│   ├── theme-provider.tsx
-│   └── theme-toggle.tsx  # Theme toggle (CLIENT)
-├── content/              # Markdown blog posts
+│   ├── ui/                   # Shadcn UI components (DO NOT EDIT MANUALLY)
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   ├── textarea.tsx
+│   │   ├── input-group.tsx
+│   │   └── bento-grid.tsx
+│   ├── starfield/            # Animated background (CLIENT)
+│   │   ├── index.tsx         # Main component
+│   │   ├── constants.ts      # Configuration values
+│   │   ├── types.ts          # TypeScript types
+│   │   ├── hooks/            # React hooks
+│   │   ├── renderers/        # Canvas render functions
+│   │   └── utils/            # Helper utilities
+│   ├── error-boundary.tsx    # Error boundary (CLIENT)
+│   ├── header.tsx            # Site header with logo
+│   ├── footer.tsx            # Site footer
+│   ├── post-list.tsx         # Post list with search & filtering (CLIENT)
+│   ├── theme-provider.tsx    # Theme context (CLIENT)
+│   └── theme-toggle.tsx      # Theme toggle (CLIENT)
+├── content/                  # Markdown blog posts
 │   └── *.md
 ├── lib/
-│   └── utils.ts          # cn() utility for classnames
+│   └── utils.ts              # cn() utility for classnames
 └── types/
-    └── blog.ts           # TypeScript types
+    └── blog.ts               # TypeScript types
 ```
 
 ## Code Style
@@ -80,7 +100,7 @@ npx shadcn@latest add <component-name>
 
 DO NOT manually edit files in `components/ui/`. Re-run the CLI to update.
 
-Installed components: button
+**Installed components:** button, input, textarea, input-group, bento-grid
 
 ## Adding Blog Posts
 
@@ -91,6 +111,7 @@ Create `content/<slug>.md`:
 title: "Post Title"
 date: "YYYY-MM-DD"
 excerpt: "Brief description"
+tags: ["History", "Science"]
 ---
 
 Content here...
@@ -98,14 +119,24 @@ Content here...
 
 Posts auto-sort by date (newest first).
 
+**Available tags:** History, Science, Technology
+
 ## Key Dependencies
 
 | Package | Purpose |
 |---------|---------|
 | `gray-matter` | Parse markdown frontmatter |
-| `next-themes` | Dark/light mode |
+| `next-themes` | Dark/light/system mode |
 | `class-variance-authority` | Component variants |
 | `tailwind-merge` | Merge Tailwind classes |
+| `lucide-react` | Icon library |
+| `@base-ui/react` | Base UI primitives |
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_BASE_URL` | Production URL for SEO/sitemap | `https://constellationsai.vercel.app` |
 
 ## DO NOT
 
@@ -131,3 +162,5 @@ Posts auto-sort by date (newest first).
 ## Additional Context
 
 - Types: `types/blog.ts`
+- Security headers configured in `next.config.ts`
+- Standalone output mode for container deployment
