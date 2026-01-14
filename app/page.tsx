@@ -1,33 +1,39 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
+import { unstable_cache } from "next/cache"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { PostList } from "@/components/post-list"
 import type { Post, PostFrontmatter } from "@/types/blog"
 
-function getPosts(): Post[] {
-  const contentDir = path.join(process.cwd(), "content")
-  const files = fs.readdirSync(contentDir)
+// Cache posts data for 1 hour (3600 seconds)
+const getPosts = unstable_cache(
+  async (): Promise<Post[]> => {
+    const contentDir = path.join(process.cwd(), "content")
+    const files = fs.readdirSync(contentDir)
 
-  return files
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => {
-      const filePath = path.join(contentDir, file)
-      const fileContent = fs.readFileSync(filePath, "utf-8")
-      const { data } = matter(fileContent)
-      const frontmatter = data as PostFrontmatter
+    return files
+      .filter((file) => file.endsWith(".md"))
+      .map((file) => {
+        const filePath = path.join(contentDir, file)
+        const fileContent = fs.readFileSync(filePath, "utf-8")
+        const { data } = matter(fileContent)
+        const frontmatter = data as PostFrontmatter
 
-      return {
-        slug: file.replace(".md", ""),
-        title: frontmatter.title,
-        date: frontmatter.date,
-        excerpt: frontmatter.excerpt,
-        tags: frontmatter.tags ?? [],
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-}
+        return {
+          slug: file.replace(".md", ""),
+          title: frontmatter.title,
+          date: frontmatter.date,
+          excerpt: frontmatter.excerpt,
+          tags: frontmatter.tags ?? [],
+        }
+      })
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  },
+  ["posts"],
+  { revalidate: 3600 }
+)
 
 function getAllTags(posts: Post[]): string[] {
   const tags = new Set<string>()
@@ -35,8 +41,8 @@ function getAllTags(posts: Post[]): string[] {
   return Array.from(tags).sort()
 }
 
-export default function Page() {
-  const posts = getPosts()
+export default async function Page() {
+  const posts = await getPosts()
   const allTags = getAllTags(posts)
 
   return (
