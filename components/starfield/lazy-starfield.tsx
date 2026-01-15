@@ -18,6 +18,13 @@ type NavigatorWithConnection = Navigator & {
   deviceMemory?: number
 }
 
+type IdleCallback = (deadline: { didTimeout: boolean; timeRemaining: () => number }) => void
+type IdleRequestOptions = { timeout?: number }
+type IdleWindow = Window & {
+  requestIdleCallback?: (callback: IdleCallback, options?: IdleRequestOptions) => number
+  cancelIdleCallback?: (handle: number) => void
+}
+
 function shouldDisableStarfield(): boolean {
   if (typeof window === "undefined") return true
 
@@ -38,20 +45,21 @@ export function LazyStarfield() {
   useEffect(() => {
     if (shouldDisableStarfield()) return
 
+    const idleWindow = window as IdleWindow
     let timeoutId: number | null = null
     let idleId: number | null = null
 
     const enable = () => setIsEnabled(true)
 
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(enable, { timeout: 2000 })
+    if (typeof idleWindow.requestIdleCallback === "function") {
+      idleId = idleWindow.requestIdleCallback(() => enable(), { timeout: 2000 })
     } else {
       timeoutId = window.setTimeout(enable, 200)
     }
 
     return () => {
-      if (idleId !== null && "cancelIdleCallback" in window) {
-        window.cancelIdleCallback(idleId)
+      if (idleId !== null) {
+        idleWindow.cancelIdleCallback?.(idleId)
       }
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId)
