@@ -125,6 +125,8 @@ export function useStarfield({ canvasRef, isVisible, isDarkMode }: UseStarfieldO
       return
     }
 
+    if (!isVisible) return
+
     // Generate initial state
     const regenerate = () => {
       canvas.width = window.innerWidth
@@ -145,15 +147,9 @@ export function useStarfield({ canvasRef, isVisible, isDarkMode }: UseStarfieldO
     window.addEventListener("scroll", handleScroll, { passive: true })
     canvas.addEventListener("click", handleClick)
 
-    let animationId: number
+    let animationId: number | null = null
 
     const animate = (time: number) => {
-      // Skip animation if not visible
-      if (!isVisible) {
-        animationId = requestAnimationFrame(animate)
-        return
-      }
-
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const mouse = mouseRef.current
@@ -208,7 +204,9 @@ export function useStarfield({ canvasRef, isVisible, isDarkMode }: UseStarfieldO
       window.removeEventListener("mouseleave", handleMouseLeave)
       window.removeEventListener("scroll", handleScroll)
       canvas.removeEventListener("click", handleClick)
-      cancelAnimationFrame(animationId)
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId)
+      }
       if (rafMouseRef.current !== null) {
         cancelAnimationFrame(rafMouseRef.current)
       }

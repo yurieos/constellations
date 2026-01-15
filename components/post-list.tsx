@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Search, X } from "lucide-react"
 import type { Post } from "@/types/blog"
 import { cn } from "@/lib/utils"
@@ -25,29 +25,40 @@ export function PostList({ posts, allTags }: PostListProps) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
-  const filteredPosts = posts.filter((post) => {
-    // Tag filter
-    const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true
-
-    // Search filter (case-insensitive on title and excerpt)
+  const filteredPosts = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
-    const matchesSearch =
-      query === "" ||
-      post.title.toLowerCase().includes(query) ||
-      post.excerpt.toLowerCase().includes(query)
+    return posts.filter((post) => {
+      // Tag filter
+      const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true
 
-    return matchesTag && matchesSearch
-  })
+      // Search filter (case-insensitive on title and excerpt)
+      const matchesSearch =
+        query === "" ||
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query)
 
-  const formatDate = (dateString: string) => {
-    // Append T12:00:00 to avoid timezone rollover issues
-    // "2026-01-11" parsed as UTC midnight becomes Jan 10 in western timezones
-    return new Date(`${dateString}T12:00:00`).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+      return matchesTag && matchesSearch
     })
-  }
+  }, [posts, searchQuery, selectedTag])
+
+  const dateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+    []
+  )
+
+  const formatDate = useCallback(
+    (dateString: string) => {
+      // Append T12:00:00 to avoid timezone rollover issues
+      // "2026-01-11" parsed as UTC midnight becomes Jan 10 in western timezones
+      return dateFormatter.format(new Date(`${dateString}T12:00:00`))
+    },
+    [dateFormatter]
+  )
 
   return (
     <>
